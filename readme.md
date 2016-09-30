@@ -3,5 +3,6 @@
 
 ```
 $ docker-compose up -d
-$ gulp
+$ npm install
+$ ./node_modules/.bin/gulp
 ```
