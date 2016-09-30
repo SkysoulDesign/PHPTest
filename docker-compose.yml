@@ -1,0 +1,29 @@
+mysql:
+  image: mysql:latest
+  container_name: PHPTest_database
+  ports:
+    - 3306:3306
+  environment:
+    MYSQL_DATABASE: test
+    MYSQL_ROOT_PASSWORD: 123456
+
+php:
+  build: .
+  dockerfile: ./build/docker/php/Dockerfile
+  container_name: PHPTest_php
+  volumes:
+    - .:/var/www/PHPTest
+  entrypoint:
+    - php-fpm
+
+nginx:
+  image: nginx:alpine
+  container_name: PHPTest_nginx
+  volumes_from:
+    - php
+  volumes:
+    - ./build/nginx.conf:/etc/nginx/conf.d/default.conf
+  links:
+    - php
+  ports:
+    - 8080:80
